@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Alertas Diários de Geopolítica</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f9; color: #333; }
+  h1, h2 { color: #1a1a2e; }
+  .news-section { margin-bottom: 40px; }
+  ul { list-style: none; padding-left: 0; }
+  li { background: #fff; padding: 10px; margin-bottom: 5px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+  a { text-decoration: none; color: #1a73e8; }
+  a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<h1>Notícias de Geopolítica - Atualizado Diário</h1>
+
+<div class="news-section" id="top-global">
+  <h2>🌐 Top 10 Notícias Globais</h2>
+  <ul id="top-global-news"></ul>
+</div>
+
+<div class="news-section" id="us">
+  <h2>🇺🇸 Estados Unidos</h2>
+  <ul id="us-news"></ul>
+</div>
+
+<div class="news-section" id="china">
+  <h2>🇨🇳 China</h2>
+  <ul id="china-news"></ul>
+</div>
+
+<div class="news-section" id="russia">
+  <h2>🇷🇺 Rússia</h2>
+  <ul id="russia-news"></ul>
+</div>
+
+<div class="news-section" id="india">
+  <h2>🇮🇳 Índia</h2>
+  <ul id="india-news"></ul>
+</div>
+
+<div class="news-section" id="brazil">
+  <h2>🇧🇷 Brasil</h2>
+  <ul id="brazil-news"></ul>
+</div>
+
+<script>
+// Feeds confiáveis e testados
+const feeds = {
+  global: [
+    "https://feeds.bbci.co.uk/news/world/rss.xml",
+    "https://www.reuters.com/rssFeed/worldNews"
+  ],
+  us: [
+    "https://rss.nytimes.com/services/xml/rss/nyt/US.xml"
+  ],
+  china: [
+    "https://www.scmp.com/rss/91/feed"
+  ],
+  russia: [
+    "https://themoscowtimes.com/rss"
+  ],
+  india: [
+    "https://timesofindia.indiatimes.com/rssfeedstopstories.cms"
+  ],
+  brazil: [
+    "https://g1.globo.com/rss/g1/politica/"
+  ]
+};
+
+// Busca RSS e retorna items
+async function fetchRSS(url){
+  try{
+    const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`);
+    const data = await res.json();
+    return data.items;
+  }catch(e){
+    console.error("Erro ao carregar RSS:", e);
+    return [];
+  }
+}
+
+// Exibe até maxItems em um elemento
+function displayNews(items, elementId, maxItems=10){
+  const ul = document.getElementById(elementId);
+  ul.innerHTML = "";
+  items.slice(0, maxItems).forEach(item => {
+    const li = document.createElement("li");
+    li.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
+    ul.appendChild(li);
+  });
+}
+
+// Carrega Top 10 Globais
+async function loadGlobalTop(){
+  let allItems = [];
+  for(const url of feeds.global){
+    const items = await fetchRSS(url);
+    allItems = allItems.concat(items);
+  }
+  allItems.sort((a,b) => new Date(b.pubDate) - new Date(a.pubDate));
+  displayNews(allItems, "top-global-news", 10);
+}
+
+// Carrega notícias de cada país
+async function loadCountryNews(){
+  for(const [key, urls] of Object.entries(feeds)){
+    if(key === "global") continue;
+    let allItems = [];
+    for(const url of urls){
+      const items = await fetchRSS(url);
+      allItems = allItems.concat(items);
+    }
+    allItems.sort((a,b) => new Date(b.pubDate) - new Date(a.pubDate));
+    displayNews(allItems, key+"-news", 10);
+  }
+}
+
+// Inicializa
+loadGlobalTop();
+loadCountryNews();
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toque para criar corações</title>
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    height: 100vh;
+    background: #f0f0f0;
+    position: relative;
+    touch-action: manipulation;
+  }
+
+  .heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: red;
+    transform: rotate(45deg);
+    animation: floatUp 1s ease-out forwards;
+  }
+
+  .heart::before,
+  .heart::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: red;
+    border-radius: 50%;
+  }
+
+  .heart::before {
+    top: -10px;
+    left: 0;
+  }
+
+  .heart::after {
+    left: -10px;
+    top: 0;
+  }
+
+  @keyframes floatUp {
+    0% {
+      opacity: 1;
+      transform: translateY(0) scale(1) rotate(45deg);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-100px) scale(1.5) rotate(45deg);
+    }
+  }
+</style>
+</head>
+<body>
+
+<script>
+  document.addEventListener('click', createHeart);
+  document.addEventListener('touchstart', function(e) {
+    createHeart(e.touches[0]);
+  });
+
+  function createHeart(e) {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.style.left = (e.clientX - 10) + 'px';
+    heart.style.top = (e.clientY - 10) + 'px';
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+      heart.remove();
+    }, 1000);
+  }
+</script>
+
+</body>
+</html>
