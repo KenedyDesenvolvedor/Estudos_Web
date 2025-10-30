@@ -1,0 +1,24 @@
+@charset "UTF-8";
+body{
+	font-size:2rem;
+}
+#container{
+	width:1070px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: row;
+	flex-direction: column;
+}
+#link:hover{
+	color: orange;
+}
+#container-texto{
+	margin:150px;
+	border:30px solid #999;
+	padding:20px;
+	background-color:orange;
+}
+#container-texto::first-line{
+	color: blue;
+	text-transform: uppercase;
+}

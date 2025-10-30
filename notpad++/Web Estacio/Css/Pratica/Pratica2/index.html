@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Posicionamento elementos com CSS</title>
+<style type="text/css">
+div#main {
+margin: auto;
+width: 400px;
+background-color: orange;
+border: 1px solid #000;
+padding: 10px;
+}
+.img {
+width: 394px;
+height: 200px;
+border: 3px inset yellow;
+}
+#container-texto {
+width: 382px;
+background-color: blue;
+height: 150px;
+overflow: auto;
+margin-top: 20px;
+padding-left: 5px;
+padding-right: 5px;
+border: 4px dashed grey;
+}
+.texto {
+font-weight: bold;
+text-decoration: underline;
+}
+</style>
+</head>
+<body>
+<div id="main">
+<h1>Visão Final da Página</h1>
+<img class="img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Boxmodell-detail.png/220px-Boxmodell-detail.png">
+<div id="container-texto">
+<p><span class="texto">
+	Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+	In euismod nibh sit amet justo cursus, eget posuere arcu pharetra. 
+	</span>. 
+	Donec vestibulum, lectus non consectetur condimentum, ex purus 
+	luctus lectus, at lacinia augue sem euismod diam.</p>
+<p><span class="texto">
+	Aliquam aliquam accumsan varius. Fusce facilisis sollicitudin tortor. 
+	</span>. 
+	Curabitur aliquet bibendum ligula, vitae porta nunc ornare sed. 
+ 	Aliquam dapibus scelerisque turpis, eget hendrerit turpis elementum in. 
+	Aliquam accumsan sit amet nisi euismod imperdiet. 
+	Integer non pellentesque ante, nec gravida leo.</p>
+</div>
+</div>
+</body>
+</html>
